@@ -7,8 +7,6 @@ var logger = require("morgan");
 var cheerio = require("cheerio");
 var request = require("request");
 
-// Mongoose
-
 var Note = require("./models/note");
 var Article = require("./models/article");
 var databaseUrl = 'mongodb://localhost/scrap';
@@ -31,11 +29,8 @@ db.once("open", function() {
 	console.log("Mongoose connection successful.");
 });
 
-
 var app = express();
 var port = process.env.PORT || 3000;
-
-// app set-ups
 
 app.use(logger("dev"));
 app.use(express.static("public"));
@@ -47,8 +42,6 @@ app.set("view engine", "handlebars");
 app.listen(port, function() {
 	console.log("Listening on port " + port);
 })
-
-// Routes
 
 app.get("/", function(req, res) {
 	Article.find({}, null, {sort: {created: -1}}, function(err, data) {
@@ -96,7 +89,7 @@ app.get("/scrape", function(req, res) {
 });
 
 app.get("/saved", function(req, res) {
-	Article.find({issaved: true}, null, {sort: {created: -1}}, function(err, data) {
+	Article.find({isSaved: true}, null, {sort: {created: -1}}, function(err, data) {
 		if(data.length === 0) {
 			res.render("placeholder", {message: "You have not saved any articles yet. Try to save some delicious news by simply clicking \"Save Article\"!"});
 		}
@@ -127,13 +120,13 @@ app.post("/search", function(req, res) {
 
 app.post("/save/:id", function(req, res) {
 	Article.findById(req.params.id, function(err, data) {
-		if (data.issaved) {
-			Article.findByIdAndUpdate(req.params.id, {$set: {issaved: false, status: "Save Article"}}, {new: true}, function(err, data) {
+		if (data.isSaved) {
+			Article.findByIdAndUpdate(req.params.id, {$set: {isSaved: false, status: "Save Article"}}, {new: true}, function(err, data) {
 				res.redirect("/");
 			});
 		}
 		else {
-			Article.findByIdAndUpdate(req.params.id, {$set: {issaved: true, status: "Saved"}}, {new: true}, function(err, data) {
+			Article.findByIdAndUpdate(req.params.id, {$set: {isSaved: true, status: "Saved"}}, {new: true}, function(err, data) {
 				res.redirect("/saved");
 			});
 		}

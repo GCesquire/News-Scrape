@@ -1,7 +1,7 @@
 var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 
-var Articleschema = new Schema({
+var ArticleSchema = new Schema({
 	title: {
 		type: String,
 		required: true,
@@ -16,9 +16,8 @@ var Articleschema = new Schema({
 	},
 	img: {
 		type: String,
-		// default: "/assets/images/unavailable.jpg"
 	},
-	issaved: {
+	isSaved: {
 		type: Boolean,
 		default: false
 	},
@@ -36,7 +35,7 @@ var Articleschema = new Schema({
 	}
 });
 
-Articleschema.index({title: "text"});
+ArticleSchema.index({title: "text"});
 
-var Article  = mongoose.model("Article", Articleschema);
+var Article  = mongoose.model("Article", ArticleSchema);
 module.exports = Article;

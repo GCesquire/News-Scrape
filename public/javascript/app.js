@@ -1,4 +1,4 @@
-function shownote(event) {
+const shownote = event => {
 	event.preventDefault();
 	var id = $(this).attr("value");
 	$("#addnote").fadeIn(300).css("display", "flex");
@@ -15,7 +15,7 @@ function shownote(event) {
 
 }
 
-function addnote(event) {
+const addnote = event => {
 	event.preventDefault();
 	var id = $(this).attr("value");
 	var obj = {
@@ -27,14 +27,14 @@ function addnote(event) {
 	});
 }
 
-function changestatus() {
+const changestatus = () => {
 	var status = $(this).attr("value");
 	if (status === "Saved") {
 		$(this).html("Unsave");
 	}
 };
 
-function changeback() {
+const changeback = () => {
 	$(this).html($(this).attr("value"));
 }
 
